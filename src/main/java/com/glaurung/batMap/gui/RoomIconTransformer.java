@@ -151,14 +151,14 @@ public class RoomIconTransformer implements Transformer<Room, Icon> {
         loadIndoors();
         loadOutdoors();
         loadRed();
-        loadColoredIcons( yellowWalls, yellowExits, RoomColors.YELLOW );
-        loadColoredIcons( blueWalls, blueExits, RoomColors.BLUE );
-        loadColoredIcons( pinkWalls, pinkExits, RoomColors.PINK );
-        loadColoredIcons( purpleWalls, purpleExits, RoomColors.PURPLE );
-        loadColoredIcons( orangeWalls, orangeExits, RoomColors.ORANGE );
-        loadColoredIcons( brownWalls, brownExits, RoomColors.BROWN );
-        loadColoredIcons( turquoiseWalls, turquoiseExits, RoomColors.TURQUOISE );
-        loadColoredIcons( ivoryWalls, ivoryExits, RoomColors.IVORY );
+        loadColoredIcons( yellowWalls, yellowExits, RoomColors.YELLOW.getAwtColor() );
+        loadColoredIcons( blueWalls, blueExits, RoomColors.BLUE.getAwtColor() );
+        loadColoredIcons( pinkWalls, pinkExits, RoomColors.PINK.getAwtColor() );
+        loadColoredIcons( purpleWalls, purpleExits, RoomColors.PURPLE.getAwtColor() );
+        loadColoredIcons( orangeWalls, orangeExits, RoomColors.ORANGE.getAwtColor() );
+        loadColoredIcons( brownWalls, brownExits, RoomColors.BROWN.getAwtColor() );
+        loadColoredIcons( turquoiseWalls, turquoiseExits, RoomColors.TURQUOISE.getAwtColor() );
+        loadColoredIcons( ivoryWalls, ivoryExits, RoomColors.IVORY.getAwtColor() );
 
 
     }
@@ -211,7 +211,7 @@ public class RoomIconTransformer implements Transformer<Room, Icon> {
         Image[][] exits = null;
         boolean[][] sectionHasExit = getExitGrid( room.getExits() );// x,y going left to right, up to down
         if (room.getColor() != null) {
-            if (room.getColor().equals( RoomColors.RED )) {
+            if (room.getColor().equals( RoomColors.RED.getAwtColor() )) {
                 walls = redWalls;
                 exits = redExits;
             } else if (room.getColor().equals( RoomColors.YELLOW )) {
@@ -416,29 +416,29 @@ public class RoomIconTransformer implements Transformer<Room, Icon> {
 
     private void loadRed() {
 
-        redWalls[0][0] = loadAndRotateImage( "newall.gif", 270d, RoomColors.RED );
-        redWalls[1][0] = loadAndRotateImage( "nwall.gif", null, RoomColors.RED );
-        redWalls[2][0] = loadAndRotateImage( "newall.gif", null, RoomColors.RED );
+        redWalls[0][0] = loadAndRotateImage( "newall.gif", 270d, RoomColors.RED.getAwtColor() );
+        redWalls[1][0] = loadAndRotateImage( "nwall.gif", null, RoomColors.RED.getAwtColor() );
+        redWalls[2][0] = loadAndRotateImage( "newall.gif", null, RoomColors.RED.getAwtColor() );
 
-        redWalls[0][1] = loadAndRotateImage( "nwall.gif", 270d, RoomColors.RED );
-        redWalls[1][1] = loadAndRotateImage( "middle.gif", null, RoomColors.RED );
-        redWalls[2][1] = loadAndRotateImage( "nwall.gif", 90d, RoomColors.RED );
+        redWalls[0][1] = loadAndRotateImage( "nwall.gif", 270d, RoomColors.RED.getAwtColor() );
+        redWalls[1][1] = loadAndRotateImage( "middle.gif", null, RoomColors.RED.getAwtColor() );
+        redWalls[2][1] = loadAndRotateImage( "nwall.gif", 90d, RoomColors.RED.getAwtColor() );
 
-        redWalls[0][2] = loadAndRotateImage( "newall.gif", 180d, RoomColors.RED );
-        redWalls[1][2] = loadAndRotateImage( "nwall.gif", 180d, RoomColors.RED );
-        redWalls[2][2] = loadAndRotateImage( "newall.gif", 90d, RoomColors.RED );
+        redWalls[0][2] = loadAndRotateImage( "newall.gif", 180d, RoomColors.RED.getAwtColor() );
+        redWalls[1][2] = loadAndRotateImage( "nwall.gif", 180d, RoomColors.RED.getAwtColor() );
+        redWalls[2][2] = loadAndRotateImage( "newall.gif", 90d, RoomColors.RED.getAwtColor() );
 
-        redExits[0][0] = loadAndRotateImage( "ne.gif", 270d, RoomColors.RED );
-        redExits[1][0] = loadAndRotateImage( "n.gif", null, RoomColors.RED );
-        redExits[2][0] = loadAndRotateImage( "ne.gif", null, RoomColors.RED );
+        redExits[0][0] = loadAndRotateImage( "ne.gif", 270d, RoomColors.RED.getAwtColor() );
+        redExits[1][0] = loadAndRotateImage( "n.gif", null, RoomColors.RED.getAwtColor() );
+        redExits[2][0] = loadAndRotateImage( "ne.gif", null, RoomColors.RED.getAwtColor() );
 
-        redExits[0][1] = loadAndRotateImage( "n.gif", 270d, RoomColors.RED );
-        redExits[1][1] = loadAndRotateImage( "special.gif", null, RoomColors.RED );
-        redExits[2][1] = loadAndRotateImage( "n.gif", 90d, RoomColors.RED );
+        redExits[0][1] = loadAndRotateImage( "n.gif", 270d, RoomColors.RED.getAwtColor() );
+        redExits[1][1] = loadAndRotateImage( "special.gif", null, RoomColors.RED.getAwtColor() );
+        redExits[2][1] = loadAndRotateImage( "n.gif", 90d, RoomColors.RED.getAwtColor() );
 
-        redExits[0][2] = loadAndRotateImage( "ne.gif", 180d, RoomColors.RED );
-        redExits[1][2] = loadAndRotateImage( "n.gif", 180d, RoomColors.RED );
-        redExits[2][2] = loadAndRotateImage( "ne.gif", 90d, RoomColors.RED );
+        redExits[0][2] = loadAndRotateImage( "ne.gif", 180d, RoomColors.RED.getAwtColor() );
+        redExits[1][2] = loadAndRotateImage( "n.gif", 180d, RoomColors.RED.getAwtColor() );
+        redExits[2][2] = loadAndRotateImage( "ne.gif", 90d, RoomColors.RED.getAwtColor() );
     }
 
     private BufferedImage changeColor( BufferedImage image, Color color ) {

@@ -1,6 +1,7 @@
 package com.glaurung.batMap.io;
 
 import java.awt.geom.Point2D;
+import java.io.Console;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,6 +22,7 @@ import com.glaurung.batMap.vo.Room;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.SparseMultigraph;
+import sun.security.ssl.Debug;
 
 public class AreaDataPersister {
 
@@ -32,27 +34,16 @@ public class AreaDataPersister {
     public static void save( String basedir, SparseMultigraph<Room, Exit> graph, Layout<Room, Exit> layout ) throws IOException {
         AreaSaveObject saveObject = makeSaveObject( basedir, graph, layout );
         saveData( saveObject );
-
     }
-
 
     private static void saveData( AreaSaveObject saveObject ) throws IOException {
-        FileOutputStream fileOutputStream = new FileOutputStream( new File( saveObject.getFileName() ) );
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream( fileOutputStream );
-        objectOutputStream.writeObject( saveObject );
-        fileOutputStream.close();
-
+        JsonSerializer.save(saveObject);
     }
 
-
     public static AreaSaveObject loadData( String basedir, String areaName ) throws IOException, ClassNotFoundException {
+        String dataFile = getFileNameFrom( basedir, areaName );
 
-        File dataFile = new File( getFileNameFrom( basedir, areaName ) );
-//		System.out.println("\n\n+ndataFileForLoading\n\n\n"+dataFile);
-        FileInputStream fileInputStream = new FileInputStream( dataFile );
-        ObjectInputStream objectInputStream = new ObjectInputStream( fileInputStream );
-        AreaSaveObject saveObject = (AreaSaveObject) objectInputStream.readObject();
-        return saveObject;
+        return JsonSerializer.load(dataFile);
     }
 
     public static List<String> listAreaNames( String basedir ) {
@@ -79,7 +70,6 @@ public class AreaDataPersister {
             locations.put( room, coord );
         }
         saveObject.setFileName( getFileNameFrom( basedir, graph.getVertices().iterator().next().getArea().getName() ) );
-//		System.out.println("\n\n+nsaveobjectdone\n\n\n"+saveObject.getFileName());
         return saveObject;
     }
 
@@ -98,6 +88,23 @@ public class AreaDataPersister {
         }
 
         return new File( newDir, areaName ).getPath();
+    }
+
+    public static void convertFilesToJson(String basedir) {
+        File dir = new File( basedir, FilenameUtils.concat(NEW_PATH, PATH));
+
+        Collection<File> files = FileUtils.listFiles( dir, new String[]{"batmap"}, false );
+        for (File mapfile : files) {
+            try {
+                Debug.println("Converting: ", mapfile.getName());
+                //FileUtils.copyFile(mapfile, new File(mapfile.getPath()+".bak"));
+                AreaSaveObject area = JavaSerializer.load(mapfile.getPath());
+                area.setFileName(mapfile.getPath());
+                JsonSerializer.save(area);
+            }
+            catch ( ClassNotFoundException e ) { e.printStackTrace(); }
+            catch ( IOException e ) { e.printStackTrace(); }
+        }
     }
 
     public static void migrateFilesToNewLocation( String basedir ) {
@@ -128,9 +135,5 @@ public class AreaDataPersister {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
-
-
 }

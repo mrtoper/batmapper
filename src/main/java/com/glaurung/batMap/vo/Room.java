@@ -1,6 +1,7 @@
 package com.glaurung.batMap.vo;
 
-import java.awt.Color;
+import com.glaurung.batMap.gui.Color;
+import com.glaurung.batMap.gui.RoomColors;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -8,21 +9,20 @@ import java.util.Set;
 
 public class Room implements Serializable {
 
-
     private static final long serialVersionUID = 9036581185666106041L;
     private String id;
     private String shortDesc;
     private String longDesc;
     private boolean areaEntrance = false;
-    private boolean current = false;
-    private boolean drawn = false;
+    private transient boolean current = false;
+    private transient boolean drawn = false;
     private Area area;
-    private boolean picked = false;
+    private transient boolean picked = false;
     Set<String> exits = new HashSet<String>();
     private boolean indoors;
     private String notes;
     private Color color = null;
-
+    //private transient Color awtColor = null;
 
     public Room( String shortDesc, String id ) {
         this.shortDesc = shortDesc;
@@ -158,11 +158,17 @@ public class Room implements Serializable {
     }
 
     public Color getColor() {
+//        if (awtColor == null && color != null)
+//            awtColor = RoomColors.getColors()[RoomColors.getIndex(color)];
+//
+//        return awtColor;
         return color;
     }
 
     public void setColor( Color color ) {
-        this.color = color;
+//        this.awtColor = color;
+//        this.color = RoomColors.getColorNames()[RoomColors.getIndex(color)];
+          this.color = color;
     }
 
     public void setNotes( String notes ) {
