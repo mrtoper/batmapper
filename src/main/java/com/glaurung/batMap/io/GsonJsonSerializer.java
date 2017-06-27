@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import org.apache.commons.io.FilenameUtils;
 
-public class JsonSerializer {
+public class GsonJsonSerializer {
 	private static ObjectMapper mapper = new ObjectMapper();
 
 	public static void save(AreaSaveObject saveObject) {
