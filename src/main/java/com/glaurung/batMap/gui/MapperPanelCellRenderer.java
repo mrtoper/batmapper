@@ -21,7 +21,7 @@ public class MapperPanelCellRenderer extends DefaultListCellRenderer {
         setText( value.toString() );
 
         if (index > - 1) {
-            setBackground( RoomColors.getColors()[index].getAwtColor() );
+            setBackground( RoomColors.getColors()[index] );
         }
         return this;
 

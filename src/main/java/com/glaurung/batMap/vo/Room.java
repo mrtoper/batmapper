@@ -1,7 +1,6 @@
 package com.glaurung.batMap.vo;
 
-import com.glaurung.batMap.gui.Color;
-import com.glaurung.batMap.gui.RoomColors;
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,11 +17,10 @@ public class Room implements Serializable {
     private transient boolean drawn = false;
     private Area area;
     private transient boolean picked = false;
-    Set<String> exits = new HashSet<String>();
+    private Set<String> exits = new HashSet<String>();
     private boolean indoors;
     private String notes;
     private Color color = null;
-    //private transient Color awtColor = null;
 
     public Room( String shortDesc, String id ) {
         this.shortDesc = shortDesc;
@@ -64,36 +62,29 @@ public class Room implements Serializable {
         this.longDesc = longDesc;
     }
 
-
     public boolean isAreaEntrance() {
         return areaEntrance;
     }
-
 
     public void setAreaEntrance( boolean areaEntrance ) {
         this.areaEntrance = areaEntrance;
     }
 
-
     public boolean isCurrent() {
         return current;
     }
-
 
     public void setCurrent( boolean current ) {
         this.current = current;
     }
 
-
     public boolean isDrawn() {
         return drawn;
     }
 
-
     public void setDrawn( boolean drawn ) {
         this.drawn = drawn;
     }
-
 
     public Area getArea() {
         return area;
@@ -137,7 +128,6 @@ public class Room implements Serializable {
                 return true;
         }
         return false;
-
     }
 
     public void setDescs( String shortDesc, String longDesc ) {
@@ -158,22 +148,15 @@ public class Room implements Serializable {
     }
 
     public Color getColor() {
-//        if (awtColor == null && color != null)
-//            awtColor = RoomColors.getColors()[RoomColors.getIndex(color)];
-//
-//        return awtColor;
         return color;
     }
 
     public void setColor( Color color ) {
-//        this.awtColor = color;
-//        this.color = RoomColors.getColorNames()[RoomColors.getIndex(color)];
           this.color = color;
     }
 
     public void setNotes( String notes ) {
         this.notes = notes;
     }
-
 
 }

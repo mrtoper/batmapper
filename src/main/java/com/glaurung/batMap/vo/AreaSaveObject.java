@@ -12,6 +12,7 @@ public class AreaSaveObject implements Serializable {
 
     private static final long serialVersionUID = - 787030872360880875L;
 
+    //@JsonSerialize(keyUsing=Room.class)
     private SparseMultigraph<Room, Exit> graph;
     private Map<Room, Point2D> locations;
     private String fileName;

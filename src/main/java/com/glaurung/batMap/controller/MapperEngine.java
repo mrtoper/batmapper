@@ -1,6 +1,6 @@
 package com.glaurung.batMap.controller;
 
-import com.glaurung.batMap.gui.Color;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ComponentEvent;

@@ -1,5 +1,7 @@
 package com.glaurung.batMap.gui;
 
+import java.awt.Color;
+
 public class RoomColors {
 
     public static Color NORMAL = null;

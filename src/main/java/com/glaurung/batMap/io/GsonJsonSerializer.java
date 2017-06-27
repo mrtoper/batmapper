@@ -1,45 +1,84 @@
 package com.glaurung.batMap.io;
-import com.fasterxml.jackson.core.JsonGenerationException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
+import com.glaurung.batMap.gui.RoomColors;
 import com.glaurung.batMap.vo.AreaSaveObject;
-import java.io.File;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import java.awt.Color;
+import java.awt.geom.Point2D;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
-import org.apache.commons.io.FilenameUtils;
+import java.lang.reflect.Type;
 
 public class GsonJsonSerializer {
-	private static ObjectMapper mapper = new ObjectMapper();
+private static final Gson gson;
 
-	public static void save(AreaSaveObject saveObject) {
-		try {
-			// Convert object to JSON string and save into a file directly
-			mapper.writerWithDefaultPrettyPrinter().writeValue(new File(saveObject.getFileName()), saveObject);
+static {
+	gson = new GsonBuilder()
+		.setPrettyPrinting()
+		.enableComplexMapKeySerialization()
+		.registerTypeAdapter(Color.class, new ColorGsonSerializer())
+		.registerTypeAdapter(Color.class, new ColorGsonDeserializer())
+		.registerTypeAdapter(Point2D.class, new Point2DInstanceCreator())
+		.create();
+}
 
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+public static void save(AreaSaveObject saveObject) {
+	try {
+		FileWriter writer = new FileWriter(saveObject.getFileName());
+		gson.toJson(saveObject, AreaSaveObject.class, gson.newJsonWriter(writer));
+
+		writer.flush();
+		writer.close();
+
+	} catch (IOException e) {
+		e.printStackTrace();
 	}
+}
 
 	public static AreaSaveObject load(String filePath) {
-		try {
-			// Convert JSON string from file to Object
-			AreaSaveObject saveObject = mapper.readValue(new File(filePath), AreaSaveObject.class);
+	try {
+		FileReader reader = new FileReader(filePath);
 
-			return saveObject;
+		AreaSaveObject saveObject = gson.fromJson(gson.newJsonReader(reader), AreaSaveObject.class);
 
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return saveObject;
 
-		return null;
+	}
+	catch (IOException e) {
+	e.printStackTrace();
 	}
 
+	return null;
+	}
+}
+
+
+class ColorGsonSerializer implements JsonSerializer<Color> {
+	public JsonElement serialize(Color src, Type typeOfSrc, JsonSerializationContext context) {
+		return new JsonPrimitive(RoomColors.getColorNames()[RoomColors.getIndex(src)]);
+	}
+}
+
+class ColorGsonDeserializer implements JsonDeserializer<Color> {
+	public Color deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+		return RoomColors.getColors()[RoomColors.getIndex(json.getAsJsonPrimitive().getAsString())];
+	}
+}
+
+class Point2DInstanceCreator implements InstanceCreator<Point2D>{
+	@Override
+	public Point2D createInstance(Type type) {
+		return new Point2D.Double();
+	}
 }

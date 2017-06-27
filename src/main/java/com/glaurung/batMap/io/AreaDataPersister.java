@@ -1,27 +1,19 @@
 package com.glaurung.batMap.io;
 
+import com.glaurung.batMap.vo.AreaSaveObject;
+import com.glaurung.batMap.vo.Exit;
+import com.glaurung.batMap.vo.Room;
+import edu.uci.ics.jung.algorithms.layout.Layout;
+import edu.uci.ics.jung.graph.SparseMultigraph;
 import java.awt.geom.Point2D;
-import java.io.Console;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-
-import com.glaurung.batMap.vo.AreaSaveObject;
-import com.glaurung.batMap.vo.Exit;
-import com.glaurung.batMap.vo.Room;
-
-import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.graph.SparseMultigraph;
 import sun.security.ssl.Debug;
 
 public class AreaDataPersister {
@@ -37,13 +29,13 @@ public class AreaDataPersister {
     }
 
     private static void saveData( AreaSaveObject saveObject ) throws IOException {
-        JsonSerializer.save(saveObject);
+        GsonJsonSerializer.save(saveObject);
     }
 
     public static AreaSaveObject loadData( String basedir, String areaName ) throws IOException, ClassNotFoundException {
         String dataFile = getFileNameFrom( basedir, areaName );
 
-        return JsonSerializer.load(dataFile);
+        return GsonJsonSerializer.load(dataFile);
     }
 
     public static List<String> listAreaNames( String basedir ) {
@@ -96,11 +88,16 @@ public class AreaDataPersister {
         Collection<File> files = FileUtils.listFiles( dir, new String[]{"batmap"}, false );
         for (File mapfile : files) {
             try {
-                Debug.println("Converting: ", mapfile.getName());
-                //FileUtils.copyFile(mapfile, new File(mapfile.getPath()+".bak"));
-                AreaSaveObject area = JavaSerializer.load(mapfile.getPath());
-                area.setFileName(mapfile.getPath());
-                JsonSerializer.save(area);
+                String filePath = mapfile.getPath();
+                String fileName = mapfile.getName();
+
+                //FileUtils.copyFile(mapfile, new File(filePath + ".bak"));
+
+                Debug.println("Converting: ", fileName);
+                AreaSaveObject area = JavaSerializer.load(filePath);
+                area.setFileName(filePath);
+                GsonJsonSerializer.save(area);
+                GsonJsonSerializer.load(filePath);
             }
             catch ( ClassNotFoundException e ) { e.printStackTrace(); }
             catch ( IOException e ) { e.printStackTrace(); }

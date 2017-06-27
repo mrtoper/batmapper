@@ -1,10 +1,8 @@
 package com.mrtoper.batMap
 
 import com.glaurung.batMap.io.AreaDataPersister
-import com.glaurung.batMap.io.JsonSerializer
+import com.glaurung.batMap.io.GsonJsonSerializer
 import com.glaurung.batMap.vo.AreaSaveObject
-import org.apache.commons.io.FileUtils
-import org.apache.commons.io.FilenameUtils
 import spock.lang.*
 
 /**
@@ -18,8 +16,8 @@ class PersisterTest extends Specification {
 			AreaSaveObject areaSaveObject = AreaDataPersister.loadData(baseDir, areaName)
 
 		when:
-			JsonSerializer.save(areaSaveObject)
-			JsonSerializer.load(baseDir + File.pathSeparator + areaName +".json")
+			GsonJsonSerializer.save(areaSaveObject)
+			GsonJsonSerializer.load(baseDir + File.pathSeparator + areaName +".json")
 
 		then:
 			//File f = new File(baseDir, areaName + ".json")
